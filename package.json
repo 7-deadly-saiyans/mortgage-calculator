@@ -1,0 +1,25 @@
+{
+  "name": "mortgage-calculator",
+  "version": "0.0.0",
+  "description": "trulia mortgage calculator component",
+  "main": "api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node api.js",
+    "seed": "node db/seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/7-deadly-saiyans/mortgage-calculator.git"
+  },
+  "author": "andrew-cadwallader",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/7-deadly-saiyans/mortgage-calculator/issues"
+  },
+  "homepage": "https://github.com/7-deadly-saiyans/mortgage-calculator#readme",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.11"
+  }
+}
