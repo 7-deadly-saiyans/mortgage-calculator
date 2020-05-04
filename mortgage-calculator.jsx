@@ -3,7 +3,6 @@ class MortgageCalculator extends React.Component {
     super(props);
   }
   render() {
-    console.log('rendered');
     return (
       <section id="mortgage-calculator" role="application">
         <header>
@@ -16,23 +15,23 @@ class MortgageCalculator extends React.Component {
           <fieldset id="HomePrice">
             <legend>Home Price</legend>
             <label htmlFor="HomePriceInput">Home Price</label>
-            <input class="textInput" id="HomePriceInput" type="text" defaultValue="$265,015" />
-            <input class="range" type="range" min="0" max="1500000" step="10" aria-label="Home Price" defaultValue="265015" />
+            <input className="textInput" id="HomePriceInput" type="text" defaultValue="$265,015" />
+            <input className="range" type="range" min="0" max="1500000" step="10" aria-label="Home Price" defaultValue="265015" />
           </fieldset>
 
           <fieldset id="DownPayment">
             <legend>Down Payment</legend>
             <label htmlFor="DownPaymentInput">Down Payment</label>
-            <input class="textInput rightSplit" id="DownPaymentInput" type="text" defaultValue="$53,003" />
-            <input class="textInput leftSplit" id="DownPaymentPercentage" aria-label="Down Payment Percentage" type="text" defaultValue="20%" />
-            <input class="range" type="range" min="0" max="30" step="1" aria-label="Down Payment" defaultValue="20" />
+            <input className="textInput rightSplit" id="DownPaymentInput" type="text" defaultValue="$53,003" />
+            <input className="textInput leftSplit" id="DownPaymentPercentage" aria-label="Down Payment Percentage" type="text" defaultValue="20%" />
+            <input className="range" type="range" min="0" max="30" step="1" aria-label="Down Payment" defaultValue="20" />
           </fieldset>
 
           <fieldset id="InterestRate">
             <legend>Interest Rate</legend>
             <label htmlFor="InterestRateInput">Interest Rate</label>
-            <input class="textInput" id="InterestRateInput" type="text" defaultValue="3.93%" />
-            <input class="range" type="range" min="0" max="6.5" step="0.1" aria-label="Interest Rate" defaultValue="3.932" />
+            <input className="textInput" id="InterestRateInput" type="text" defaultValue="3.93%" />
+            <input className="range" type="range" min="0" max="6.5" step="0.1" aria-label="Interest Rate" defaultValue="3.932" />
           </fieldset>
 
           <fieldset id="LoanType">
@@ -57,7 +56,7 @@ class MortgageCalculator extends React.Component {
           </fieldset>
         </form>
 
-        <table class="AffordabilityTable">
+        <table className="AffordabilityTable">
           <thead>
             <tr>
               <th>Legend</th>
@@ -67,31 +66,31 @@ class MortgageCalculator extends React.Component {
           </thead>
           <tbody>
             <tr>
-              <td> <div class="AffordabilityTableTitleDot color1"></div> </td>
+              <td> <div className="AffordabilityTableTitleDot color1"></div> </td>
               <td> Principal &amp; Interest </td>
               <td> $1,004 </td>
             </tr>
             
             <tr>
-              <td> <div class="color2 AffordabilityTableTitleDot"></div> </td>
+              <td> <div className="color2 AffordabilityTableTitleDot"></div> </td>
               <td> Property Taxes </td>
               <td> $148 </td>
             </tr>
             
             <tr>
-              <td> <div class="color3 AffordabilityTableTitleDot"></div> </td>
+              <td> <div className="color3 AffordabilityTableTitleDot"></div> </td>
               <td> Home Insurance </td>
               <td> $75 </td>
             </tr>
             
             <tr>
-              <td> <div class="color4 AffordabilityTableTitleDot"></div> </td>
+              <td> <div className="color4 AffordabilityTableTitleDot"></div> </td>
               <td> HOA </td>
               <td> $879 </td>
             </tr>
 
             <tr>
-              <td> <div class="color5 AffordabilityTableTitleDot"></div> </td>
+              <td> <div className="color5 AffordabilityTableTitleDot"></div> </td>
               <td> Mortgage ins. &amp; other </td>
               <td> $0 </td>
             </tr>
@@ -106,7 +105,7 @@ class MortgageCalculator extends React.Component {
           </tfoot>
         </table>
 
-        <figure class="DonutChartGraphContainer">
+        <figure className="DonutChartGraphContainer">
           <svg viewBox="0 0 36 36">
             <circle cx="18" cy="18" r="12" fill="#fff" role="presentation">
             </circle>
@@ -124,13 +123,13 @@ class MortgageCalculator extends React.Component {
             </circle>
           </svg>
 
-          <figcaption class="DonutChartLabelContainer">
-            <h1><output name="MonthlyPayment" class="DonutChartLabelAmount">$2,106</output></h1>
-            <p class="DonutChartLabelUnit">/month</p>
+          <figcaption className="DonutChartLabelContainer">
+            <h1><output name="MonthlyPayment" className="DonutChartLabelAmount">$2,106</output></h1>
+            <p className="DonutChartLabelUnit">/month</p>
           </figcaption>
         </figure>
 
-        <footer class="AffordabilityTableButtonContainer">
+        <footer className="AffordabilityTableButtonContainer">
           <button type="button">Get Pre-Qualified</button>
           or
           <small><a href="/rates"> See today's mortgage rates </a></small>
