@@ -109,17 +109,17 @@ class MortgageCalculator extends React.Component {
           <svg viewBox="0 0 36 36">
             <circle cx="18" cy="18" r="12" fill="#fff" role="presentation">
             </circle>
-            <circle cx="18" cy="18" r="16" fill="transparent" stroke="rgb(5, 34, 134)" stroke-width="3.8" 
-              stroke-dasharray="47.673314339981005 52.326685660018995" stroke-dashoffset="25">
+            <circle cx="18" cy="18" r="16" fill="transparent" stroke="rgb(5, 34, 134)" strokeWidth="3.8" 
+              strokeDasharray="47.673314339981005 52.326685660018995" strokeDashoffset="25">
             </circle>
-            <circle cx="18" cy="18" r="16" fill="transparent" stroke="rgb(0, 173, 187)" stroke-width="3.8" 
-              stroke-dasharray="7.027540360873694 92.9724596391263" stroke-dashoffset="77.326685660019">
+            <circle cx="18" cy="18" r="16" fill="transparent" stroke="rgb(0, 173, 187)" strokeWidth="3.8" 
+              strokeDasharray="7.027540360873694 92.9724596391263" strokeDashoffset="77.326685660019">
             </circle>
-            <circle cx="18" cy="18" r="16" fill="transparent" stroke="rgb(194, 213, 0)" stroke-width="3.8" 
-              stroke-dasharray="3.561253561253561 96.43874643874643" stroke-dashoffset="70.2991452991453">
+            <circle cx="18" cy="18" r="16" fill="transparent" stroke="rgb(194, 213, 0)" strokeWidth="3.8" 
+              strokeDasharray="3.561253561253561 96.43874643874643" strokeDashoffset="70.2991452991453">
             </circle>
-            <circle cx="18" cy="18" r="16" fill="transparent" stroke="rgb(250, 140, 104)" stroke-width="3.8" 
-              stroke-dasharray="41.73789173789174 58.26210826210826" stroke-dashoffset="66.73789173789174">
+            <circle cx="18" cy="18" r="16" fill="transparent" stroke="rgb(250, 140, 104)" strokeWidth="3.8" 
+              strokeDasharray="41.73789173789174 58.26210826210826" strokeDashoffset="66.73789173789174">
             </circle>
           </svg>
 
