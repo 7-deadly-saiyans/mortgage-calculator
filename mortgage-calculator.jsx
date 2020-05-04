@@ -3,6 +3,7 @@ class MortgageCalculator extends React.Component {
     super(props);
   }
   render() {
+    console.log('rendered');
     return (
       <section id="mortgage-calculator" role="application">
         <header>
@@ -15,23 +16,23 @@ class MortgageCalculator extends React.Component {
           <fieldset id="HomePrice">
             <legend>Home Price</legend>
             <label for="HomePriceInput">Home Price</label>
-            <input class="textInput" id="HomePriceInput" type="text" value="$265,015" />
-            <input class="range" type="range" min="0" max="1500000" step="10" aria-label="Home Price" value="265015" />
+            <input class="textInput" id="HomePriceInput" type="text" defaultValue="$265,015" />
+            <input class="range" type="range" min="0" max="1500000" step="10" aria-label="Home Price" defaultValue="265015" />
           </fieldset>
 
           <fieldset id="DownPayment">
             <legend>Down Payment</legend>
             <label for="DownPaymentInput">Down Payment</label>
-            <input class="textInput rightSplit" id="DownPaymentInput" type="text" value="$53,003" />
-            <input class="textInput leftSplit" id="DownPaymentPercentage" aria-label="Down Payment Percentage" type="text" value="20%" />
-            <input class="range" type="range" min="0" max="30" step="1" aria-label="Down Payment" value="20" />
+            <input class="textInput rightSplit" id="DownPaymentInput" type="text" defaultValue="$53,003" />
+            <input class="textInput leftSplit" id="DownPaymentPercentage" aria-label="Down Payment Percentage" type="text" defaultValue="20%" />
+            <input class="range" type="range" min="0" max="30" step="1" aria-label="Down Payment" defaultValue="20" />
           </fieldset>
 
           <fieldset id="InterestRate">
             <legend>Interest Rate</legend>
             <label for="InterestRateInput">Interest Rate</label>
-            <input class="textInput" id="InterestRateInput" type="text" value="3.93%" />
-            <input class="range" type="range" min="0" max="6.5" step="0.1" aria-label="Interest Rate" value="3.932" />
+            <input class="textInput" id="InterestRateInput" type="text" defaultValue="3.93%" />
+            <input class="range" type="range" min="0" max="6.5" step="0.1" aria-label="Interest Rate" defaultValue="3.932" />
           </fieldset>
 
           <fieldset id="LoanType">

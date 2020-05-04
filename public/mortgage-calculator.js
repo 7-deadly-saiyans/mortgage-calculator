@@ -3,6 +3,7 @@ class MortgageCalculator extends React.Component {
     super(props);
   }
   render() {
+    console.log('rendered');
     return React.createElement(
       "section",
       { id: "mortgage-calculator", role: "application" },
@@ -47,8 +48,8 @@ class MortgageCalculator extends React.Component {
             { "for": "HomePriceInput" },
             "Home Price"
           ),
-          React.createElement("input", { "class": "textInput", id: "HomePriceInput", type: "text", value: "$265,015" }),
-          React.createElement("input", { "class": "range", type: "range", min: "0", max: "1500000", step: "10", "aria-label": "Home Price", value: "265015" })
+          React.createElement("input", { "class": "textInput", id: "HomePriceInput", type: "text", defaultValue: "$265,015" }),
+          React.createElement("input", { "class": "range", type: "range", min: "0", max: "1500000", step: "10", "aria-label": "Home Price", defaultValue: "265015" })
         ),
         React.createElement(
           "fieldset",
