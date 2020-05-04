@@ -15,14 +15,14 @@ class MortgageCalculator extends React.Component {
         <form id="AffordabilityInputControls"> 
           <fieldset id="HomePrice">
             <legend>Home Price</legend>
-            <label for="HomePriceInput">Home Price</label>
+            <label htmlFor="HomePriceInput">Home Price</label>
             <input class="textInput" id="HomePriceInput" type="text" defaultValue="$265,015" />
             <input class="range" type="range" min="0" max="1500000" step="10" aria-label="Home Price" defaultValue="265015" />
           </fieldset>
 
           <fieldset id="DownPayment">
             <legend>Down Payment</legend>
-            <label for="DownPaymentInput">Down Payment</label>
+            <label htmlFor="DownPaymentInput">Down Payment</label>
             <input class="textInput rightSplit" id="DownPaymentInput" type="text" defaultValue="$53,003" />
             <input class="textInput leftSplit" id="DownPaymentPercentage" aria-label="Down Payment Percentage" type="text" defaultValue="20%" />
             <input class="range" type="range" min="0" max="30" step="1" aria-label="Down Payment" defaultValue="20" />
@@ -30,14 +30,14 @@ class MortgageCalculator extends React.Component {
 
           <fieldset id="InterestRate">
             <legend>Interest Rate</legend>
-            <label for="InterestRateInput">Interest Rate</label>
+            <label htmlFor="InterestRateInput">Interest Rate</label>
             <input class="textInput" id="InterestRateInput" type="text" defaultValue="3.93%" />
             <input class="range" type="range" min="0" max="6.5" step="0.1" aria-label="Interest Rate" defaultValue="3.932" />
           </fieldset>
 
           <fieldset id="LoanType">
             <legend>Loan Type</legend>
-            <label for="LoanTypeInput">Loan Type</label>
+            <label htmlFor="LoanTypeInput">Loan Type</label>
             <select id="LoanTypeInput">
               <optgroup label="Standard">
                 <option value="30-year fixed">30-year fixed</option>

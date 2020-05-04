@@ -45,7 +45,7 @@ class MortgageCalculator extends React.Component {
           ),
           React.createElement(
             "label",
-            { "for": "HomePriceInput" },
+            { htmlFor: "HomePriceInput" },
             "Home Price"
           ),
           React.createElement("input", { "class": "textInput", id: "HomePriceInput", type: "text", defaultValue: "$265,015" }),
@@ -61,12 +61,12 @@ class MortgageCalculator extends React.Component {
           ),
           React.createElement(
             "label",
-            { "for": "DownPaymentInput" },
+            { htmlFor: "DownPaymentInput" },
             "Down Payment"
           ),
-          React.createElement("input", { "class": "textInput rightSplit", id: "DownPaymentInput", type: "text", value: "$53,003" }),
-          React.createElement("input", { "class": "textInput leftSplit", id: "DownPaymentPercentage", "aria-label": "Down Payment Percentage", type: "text", value: "20%" }),
-          React.createElement("input", { "class": "range", type: "range", min: "0", max: "30", step: "1", "aria-label": "Down Payment", value: "20" })
+          React.createElement("input", { "class": "textInput rightSplit", id: "DownPaymentInput", type: "text", defaultValue: "$53,003" }),
+          React.createElement("input", { "class": "textInput leftSplit", id: "DownPaymentPercentage", "aria-label": "Down Payment Percentage", type: "text", defaultValue: "20%" }),
+          React.createElement("input", { "class": "range", type: "range", min: "0", max: "30", step: "1", "aria-label": "Down Payment", defaultValue: "20" })
         ),
         React.createElement(
           "fieldset",
@@ -78,11 +78,11 @@ class MortgageCalculator extends React.Component {
           ),
           React.createElement(
             "label",
-            { "for": "InterestRateInput" },
+            { htmlFor: "InterestRateInput" },
             "Interest Rate"
           ),
-          React.createElement("input", { "class": "textInput", id: "InterestRateInput", type: "text", value: "3.93%" }),
-          React.createElement("input", { "class": "range", type: "range", min: "0", max: "6.5", step: "0.1", "aria-label": "Interest Rate", value: "3.932" })
+          React.createElement("input", { "class": "textInput", id: "InterestRateInput", type: "text", defaultValue: "3.93%" }),
+          React.createElement("input", { "class": "range", type: "range", min: "0", max: "6.5", step: "0.1", "aria-label": "Interest Rate", defaultValue: "3.932" })
         ),
         React.createElement(
           "fieldset",
@@ -94,7 +94,7 @@ class MortgageCalculator extends React.Component {
           ),
           React.createElement(
             "label",
-            { "for": "LoanTypeInput" },
+            { htmlFor: "LoanTypeInput" },
             "Loan Type"
           ),
           React.createElement(
