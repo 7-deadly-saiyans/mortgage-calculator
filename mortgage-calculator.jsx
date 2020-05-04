@@ -38,7 +38,7 @@ class MortgageCalculator extends React.Component {
           <fieldset id="DownPayment">
             <legend>Down Payment</legend>
             <label htmlFor="DownPaymentInput">Down Payment</label>
-            <input className="textInput rightSplit" id="DownPaymentInput" type="text" defaultValue={this.state.downPayment} />
+            <input className="textInput rightSplit" id="DownPaymentInput" type="text" defaultValue={this.formatCurrency(this.state.downPayment)} />
             <input className="textInput leftSplit" id="DownPaymentPercentage" aria-label="Down Payment Percentage" type="text" defaultValue={'' + this.state.downPaymentPercent + '%'} />
             <input className="range" type="range" min="0" max="30" step="1" aria-label="Down Payment" defaultValue={this.state.downPaymentPercent} />
           </fieldset>
