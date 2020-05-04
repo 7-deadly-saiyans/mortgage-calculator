@@ -2,13 +2,8 @@ const express = require('express');
 const api = express();
 const db = require('./db/');
 
-api.param('id', (request, response, next, id) => {
-  request.id = id;
-  next();
-});
-
 api.get('/home/:id', (request, response) => {
-  db.homes.get(request.id, (error, results, fields) => {
+  db.homes.get(request.params.id, (error, results, fields) => {
     if (error) {
       console.error(error);
       response.sendStatus(404);
@@ -19,13 +14,8 @@ api.get('/home/:id', (request, response) => {
   });
 });
 
-api.param('zipCode', (request, response, next, zipCode) => {
-  request.zipCode = zipCode;
-  next();
-});
-
 api.get('/rate/:zipCode', (request, response) => {
-  db.rates.get(request.zipCode, (error, results, fields) => {
+  db.rates.get(request.params.zipCode, (error, results, fields) => {
     if (error) {
       console.error(error);
       response.sendStatus(404);
