@@ -14,9 +14,20 @@ class MortgageCalculator extends React.Component {
       hoa: 879,
       mortgageInsurance: 0
     }
+    this.handlePriceText = this.handlePriceText.bind(this);
+    this.handlePriceRange = this.handlePriceRange.bind(this);
   }
   formatCurrency(value) {
     return '$' + value.toLocaleString();
+  }
+  parseCurrency(string) {
+    return +string.match(/[0-9]/g).join('');
+  }
+  handlePriceText(event) {
+    this.setState({homePrice: this.parseCurrency(event.target.value)});
+  }
+  handlePriceRange(event) {
+    this.setState({homePrice: +event.target.value});
   }
   render() {
     return (
@@ -38,10 +49,12 @@ class MortgageCalculator extends React.Component {
             <label htmlFor="HomePriceInput">Home Price</label>
             <input className="textInput" id="HomePriceInput" type="text"
               defaultValue={this.formatCurrency(this.state.homePrice)}
+              onChange={this.handlePriceText}
             />
             <input className="range" type="range" min="0" step="10" aria-label="Home Price" 
               max={Math.max(1500000, this.state.homePrice*1.25)}
               defaultValue={this.state.homePrice} 
+              onChange={this.handlePriceRange}
             />
           </fieldset>
 
