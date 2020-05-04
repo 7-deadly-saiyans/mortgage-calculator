@@ -1,4 +1,5 @@
-const api = require('express')();
+const express = require('express');
+const api = express();
 const db = require('./db/');
 
 api.param('id', (request, response, next, id) => {
@@ -34,6 +35,8 @@ api.get('/rate/:zipCode', (request, response) => {
     }
   });
 });
+
+api.use(express.static('public'));
 
 api.listen(3000, ()=>console.log('listening on localhost:3000'));
 
