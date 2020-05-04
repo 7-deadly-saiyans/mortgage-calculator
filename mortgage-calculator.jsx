@@ -24,30 +24,50 @@ class MortgageCalculator extends React.Component {
         <header>
           <h3>Affordability</h3>
           <h4>Calculate your monthly mortgage payments</h4>
-          <h5>Your est. payment: <output name="monthlyPayment">{this.formatCurrency(this.state.monthlyPayment)}</output>/month</h5>
+          <h5>Your est. payment: 
+            <output name="monthlyPayment">
+              {this.formatCurrency(this.state.monthlyPayment)}
+            </output>
+            /month
+          </h5>
         </header>
 
         <form id="AffordabilityInputControls"> 
           <fieldset id="HomePrice">
             <legend>Home Price</legend>
             <label htmlFor="HomePriceInput">Home Price</label>
-            <input className="textInput" id="HomePriceInput" type="text" defaultValue={this.formatCurrency(this.state.homePrice)} />
-            <input className="range" type="range" min="0" max={Math.max(1500000, this.state.homePrice*1.25)} step="10" aria-label="Home Price" defaultValue={this.state.homePrice} />
+            <input className="textInput" id="HomePriceInput" type="text"
+              defaultValue={this.formatCurrency(this.state.homePrice)}
+            />
+            <input className="range" type="range" min="0" step="10" aria-label="Home Price" 
+              max={Math.max(1500000, this.state.homePrice*1.25)}
+              defaultValue={this.state.homePrice} 
+            />
           </fieldset>
 
           <fieldset id="DownPayment">
             <legend>Down Payment</legend>
             <label htmlFor="DownPaymentInput">Down Payment</label>
-            <input className="textInput rightSplit" id="DownPaymentInput" type="text" defaultValue={this.formatCurrency(this.state.downPayment)} />
-            <input className="textInput leftSplit" id="DownPaymentPercentage" aria-label="Down Payment Percentage" type="text" defaultValue={'' + this.state.downPaymentPercent + '%'} />
-            <input className="range" type="range" min="0" max="30" step="1" aria-label="Down Payment" defaultValue={this.state.downPaymentPercent} />
+            <input className="textInput rightSplit" id="DownPaymentInput" type="text"
+              defaultValue={this.formatCurrency(this.state.downPayment)}
+            />
+            <input className="textInput leftSplit" id="DownPaymentPercentage" aria-label="Down Payment Percentage" type="text" 
+              defaultValue={'' + this.state.downPaymentPercent + '%'} 
+            />
+            <input className="range" type="range" min="0" max="30" step="1" aria-label="Down Payment"
+              defaultValue={this.state.downPaymentPercent}
+            />
           </fieldset>
 
           <fieldset id="InterestRate">
             <legend>Interest Rate</legend>
             <label htmlFor="InterestRateInput">Interest Rate</label>
-            <input className="textInput" id="InterestRateInput" type="text" defaultValue={'' + this.state.interestRate + '%'} />
-            <input className="range" type="range" min="0" max="6.5" step="0.1" aria-label="Interest Rate" defaultValue={this.state.interestRate} />
+            <input className="textInput" id="InterestRateInput" type="text"
+              defaultValue={'' + this.state.interestRate + '%'}
+            />
+            <input className="range" type="range" min="0" max="6.5" step="0.1" aria-label="Interest Rate"
+              defaultValue={this.state.interestRate}
+            />
           </fieldset>
 
           <fieldset id="LoanType">
@@ -140,7 +160,11 @@ class MortgageCalculator extends React.Component {
           </svg>
 
           <figcaption className="DonutChartLabelContainer">
-            <h1><output name="MonthlyPayment" className="DonutChartLabelAmount">{this.formatCurrency(this.state.monthlyPayment)}</output></h1>
+            <h1>
+              <output name="MonthlyPayment" className="DonutChartLabelAmount">
+                {this.formatCurrency(this.state.monthlyPayment)}
+              </output>
+            </h1>
             <p className="DonutChartLabelUnit">/month</p>
           </figcaption>
         </figure>

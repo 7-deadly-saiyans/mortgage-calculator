@@ -38,7 +38,7 @@ class MortgageCalculator extends React.Component {
         React.createElement(
           'h5',
           null,
-          'Your est. payment: ',
+          'Your est. payment:',
           React.createElement(
             'output',
             { name: 'monthlyPayment' },
@@ -63,8 +63,13 @@ class MortgageCalculator extends React.Component {
             { htmlFor: 'HomePriceInput' },
             'Home Price'
           ),
-          React.createElement('input', { className: 'textInput', id: 'HomePriceInput', type: 'text', defaultValue: this.formatCurrency(this.state.homePrice) }),
-          React.createElement('input', { className: 'range', type: 'range', min: '0', max: Math.max(1500000, this.state.homePrice * 1.25), step: '10', 'aria-label': 'Home Price', defaultValue: this.state.homePrice })
+          React.createElement('input', { className: 'textInput', id: 'HomePriceInput', type: 'text',
+            defaultValue: this.formatCurrency(this.state.homePrice)
+          }),
+          React.createElement('input', { className: 'range', type: 'range', min: '0', step: '10', 'aria-label': 'Home Price',
+            max: Math.max(1500000, this.state.homePrice * 1.25),
+            defaultValue: this.state.homePrice
+          })
         ),
         React.createElement(
           'fieldset',
@@ -79,9 +84,15 @@ class MortgageCalculator extends React.Component {
             { htmlFor: 'DownPaymentInput' },
             'Down Payment'
           ),
-          React.createElement('input', { className: 'textInput rightSplit', id: 'DownPaymentInput', type: 'text', defaultValue: this.formatCurrency(this.state.downPayment) }),
-          React.createElement('input', { className: 'textInput leftSplit', id: 'DownPaymentPercentage', 'aria-label': 'Down Payment Percentage', type: 'text', defaultValue: '' + this.state.downPaymentPercent + '%' }),
-          React.createElement('input', { className: 'range', type: 'range', min: '0', max: '30', step: '1', 'aria-label': 'Down Payment', defaultValue: this.state.downPaymentPercent })
+          React.createElement('input', { className: 'textInput rightSplit', id: 'DownPaymentInput', type: 'text',
+            defaultValue: this.formatCurrency(this.state.downPayment)
+          }),
+          React.createElement('input', { className: 'textInput leftSplit', id: 'DownPaymentPercentage', 'aria-label': 'Down Payment Percentage', type: 'text',
+            defaultValue: '' + this.state.downPaymentPercent + '%'
+          }),
+          React.createElement('input', { className: 'range', type: 'range', min: '0', max: '30', step: '1', 'aria-label': 'Down Payment',
+            defaultValue: this.state.downPaymentPercent
+          })
         ),
         React.createElement(
           'fieldset',
@@ -96,8 +107,12 @@ class MortgageCalculator extends React.Component {
             { htmlFor: 'InterestRateInput' },
             'Interest Rate'
           ),
-          React.createElement('input', { className: 'textInput', id: 'InterestRateInput', type: 'text', defaultValue: '' + this.state.interestRate + '%' }),
-          React.createElement('input', { className: 'range', type: 'range', min: '0', max: '6.5', step: '0.1', 'aria-label': 'Interest Rate', defaultValue: this.state.interestRate })
+          React.createElement('input', { className: 'textInput', id: 'InterestRateInput', type: 'text',
+            defaultValue: '' + this.state.interestRate + '%'
+          }),
+          React.createElement('input', { className: 'range', type: 'range', min: '0', max: '6.5', step: '0.1', 'aria-label': 'Interest Rate',
+            defaultValue: this.state.interestRate
+          })
         ),
         React.createElement(
           'fieldset',
