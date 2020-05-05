@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: path.join(__dirname, '/index.jsx'),
+  entry: path.join(__dirname, '/jsx/index.jsx'),
   output: {
     filename: 'index.js',
     path: path.join(__dirname, '/public')
