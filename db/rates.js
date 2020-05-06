@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/trulia', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const Rates = mongoose.Schema({

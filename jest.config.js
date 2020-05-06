@@ -1,7 +1,7 @@
 module.exports = {
   clearMocks: true,
   coverageDirectory: 'coverage',
-  moduleFileExtensions: ['js','jsx'],
+  moduleFileExtensions: ['js', 'jsx'],
   setupFilesAfterEnv: ['jest-enzyme'],
   testEnvironment: 'enzyme',
   testEnvironmentOptions: {
