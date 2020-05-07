@@ -4,7 +4,7 @@
   "description": "trulia mortgage calculator component",
   "main": "api.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "start": "nodemon api.js",
     "build": "npx webpack --config webpack.config.js -w",
     "lint": "eslint .",
