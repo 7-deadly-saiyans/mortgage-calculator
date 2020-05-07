@@ -2,6 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import MortgageCalculator from './MortgageCalculator.jsx';
 ReactDOM.render(
-  <MortgageCalculator id={1} />,
+  <MortgageCalculator />,
   document.getElementById('mortgage-calculator')
 );
