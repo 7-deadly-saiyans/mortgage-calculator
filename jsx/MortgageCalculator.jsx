@@ -206,7 +206,7 @@ export default class MortgageCalculator extends React.Component {
     });
   }
   render() {
-    return this.state.init ? (
+    return this.state ? (
       <section id="mortgage-calculator" role="application">
         <Header monthlyPayment={this.formatCurrency(this.state.monthlyPayment)} />
 
