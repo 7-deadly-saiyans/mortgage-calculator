@@ -1,7 +1,58 @@
 import React from 'react';
+import Header from './Header.jsx';
+import Footer from './Footer.jsx';
+import Figure from './Figure.jsx';
+import Table from './Table.jsx';
+import Form from './Form.jsx';
+const colors = [
+  "rgb(5, 34, 134)",
+  "rgb(0, 173, 187)",
+  "rgb(194, 213, 0)",
+  "rgb(250, 140, 104)",
+  "rgb(206, 182, 255)"
+];
 export default class MortgageCalculator extends React.Component {
   constructor(props) {
     super(props);
+    const setState = this.setState.bind(this);
+    this.state = {
+      init: false,
+    };
+    fetch('/home/' + props.id)
+      .then(response => response.json())
+      .then(data => data[0])
+      .then(({id, price, hoaFees, zipCode}) => {
+        const home = {
+          id,
+          zipCode,
+          homePrice: price,
+          hoa: hoaFees,
+          downPaymentPercent: 20,
+          propertyTaxRate: .0067,
+          homeInsurance: 75,
+          mortgageInsurance: 0
+        }
+        home.downPayment = price * home.downPaymentPercent / 100;
+        home.principal = price - home.downPayment;
+        home.propertyTaxes = price * home.propertyTaxRate / 12;
+        return home;
+      })
+      .then(home => fetch('/rate/' + home.zipCode)
+        .then(response => response.json())
+        .then(data => data[0].rates)
+        .then(rates => {
+          home.rates = rates;
+          home.loanType = rates[0].rateType;
+          home.loanDuration = this.getDuration(home.loanType);
+          home.interestRate = Math.round(rates[0].rate * 100) / 100;
+          home.principalPlusInterest = this.calculatePrincipalPlus(home.principal, home.interestRate / 1200, home.loanDuration * 12);
+          home.monthlyPayment = this.calculateMonthlyPayment(home);
+          home.init = true;
+          return home;
+        })
+        .then(setState)
+      );
+    /*
     this.rates = [
       {"_id":"5eacb07355fec14695a7ee1b","rateType":"30-year fixed","rate":2.6241629055795475},
       {"_id":"5eacb07355fec14695a7ee1c","rateType":"20-year fixed","rate":2.5170805748129426},
@@ -12,257 +63,179 @@ export default class MortgageCalculator extends React.Component {
       {"_id":"5eacb07355fec14695a7ee21","rateType":"VA 30-year fixed","rate":2.0810076640794524},
       {"_id":"5eacb07355fec14695a7ee22","rateType":"VA 15-year fixed","rate":2.126239025719446}
     ];
+    */
+    /*
     this.state = {
-      homePrice: 265015,
-      downPayment: 53003,
-      downPaymentPercent: 20,
-      interestRate: 3.92,
-      loanType: '30-year fixed',
-      loanDuration: 30,
-      monthlyPayment: 2106,
-      principalPlusInterest : 1004,
-      propertyTaxes: 148,
-      homeInsurance: 75,
-      hoa: 879,
-      mortgageInsurance: 0
+      //principal: 212012,
+      //homePrice: 265015,
+      //downPayment: 53003,
+      //downPaymentPercent: 20,
+      //interestRate: 3.92,
+      //loanType: '30-year fixed',
+      //loanDuration: 30,
+      //monthlyPayment: 2106,
+      //principalPlusInterest : 1002,
+      //propertyTaxes: 148,
+      //propertyTaxRate: .0067,
+      //homeInsurance: 75,
+      //hoa: 879,
+      //mortgageInsurance: 0
     }
+    */
     this.handlePriceText = this.handlePriceText.bind(this);
     this.handlePriceRange = this.handlePriceRange.bind(this);
     this.handleDownPaymentText = this.handleDownPaymentText.bind(this);
     this.handleDownPaymentPercent = this.handleDownPaymentPercent.bind(this);
     this.handleDownPaymentRange = this.handleDownPaymentRange.bind(this);
-    this.handleRate = this.handleRate.bind(this);
+    this.handleInterestRate = this.handleInterestRate.bind(this);
     this.handleLoanType = this.handleLoanType.bind(this);
   }
+  calculateMonthlyPayment({principalPlusInterest, propertyTaxes, homeInsurance, hoa, mortgageInsurance}) {
+    return principalPlusInterest + propertyTaxes + homeInsurance + hoa + mortgageInsurance;
+  }
+  //https://en.wikipedia.org/wiki/Mortgage_calculator#Monthly_payment_formula
+  calculatePrincipalPlus(principal, monthlyRate, nPayments) {
+    return monthlyRate
+      ? monthlyRate * principal * ((1 + monthlyRate) ** nPayments) / ((1 + monthlyRate) ** nPayments - 1)
+      : (principal / nPayments);
+  }
+  getElements() {
+    return [
+      this.state.principalPlusInterest,
+      this.state.propertyTaxes,
+      this.state.homeInsurance,
+      this.state.hoa,
+      this.state.mortgageInsurance
+    ];
+  }
+  makeTableElements() {
+    return this.getElements().map(this.formatCurrency);
+  }
+  makeFigureElements() {
+    const elements = this.getElements();
+    const proportions = elements.map(e => 100 * e / this.state.monthlyPayment);
+    const complements = proportions.map(e => 100 - e);
+    const offsets = complements.map((_, i) => complements.slice(0, i).reduce((a, e) => (a + e) % 100, 25));
+    return offsets.map((e, i) => ({
+      value: '' + proportions[i],
+      complement: '' + complements[i],
+      offset: '' + offsets[i],
+      color: colors[i]
+    }));
+  }
   formatCurrency(value) {
-    return '$' + value.toLocaleString();
+    return '$' + Math.round(value).toLocaleString();
   }
   parseCurrency(string) {
     return +string.match(/[0-9]/g).join('');
   }
-  handlePriceText(event) {
-    let homePrice = this.parseCurrency(event.target.value);
-    let downPayment = Math.round(homePrice * this.state.downPaymentPercent / 100);
+  setHomePrice(homePrice) {
+    const downPayment = Math.round(homePrice * this.state.downPaymentPercent / 100);
+    const principal = homePrice - downPayment;
+    const propertyTaxes = this.state.propertyTaxRate * homePrice / 12;
+    const principalPlusInterest = this.calculatePrincipalPlus(principal, this.state.interestRate / 1200, this.state.loanDuration * 12);
+    const monthlyPayment = principalPlusInterest + this.state.propertyTaxes + this.state.homeInsurance + this.state.hoa + this.state.mortgageInsurance;
     this.setState({
+      monthlyPayment,
+      principalPlusInterest,
+      propertyTaxes,
+      principal,
       homePrice,
       downPayment
     });
   }
+  handlePriceText(event) {
+    const homePrice = this.parseCurrency(event.target.value);
+    this.setHomePrice(homePrice);
+  }
   handlePriceRange(event) {
-    let homePrice = +event.target.value;
-    let downPayment = Math.round(homePrice * this.state.downPaymentPercent / 100);
+    const homePrice = +event.target.value;
+    this.setHomePrice(homePrice);
+  }
+  setDownPayment(downPayment, downPaymentPercent) {
+    const principal = this.state.homePrice - downPayment;
+    const principalPlusInterest = this.calculatePrincipalPlus(principal, this.state.interestRate / 1200, this.state.loanDuration * 12);
+    const monthlyPayment = principalPlusInterest + this.state.propertyTaxes + this.state.homeInsurance + this.state.hoa + this.state.mortgageInsurance;
     this.setState({
-      homePrice,
-      downPayment
+      monthlyPayment,
+      principalPlusInterest,
+      principal,
+      downPayment,
+      downPaymentPercent
     });
   }
   handleDownPaymentText(event) {
-    let downPayment = Math.round(this.parseCurrency(event.target.value));
-    let downPaymentPercent = Math.round(100 * downPayment / this.state.homePrice);
-    this.setState({
-      downPayment,
-      downPaymentPercent
-    });
+    const downPayment = Math.round(this.parseCurrency(event.target.value));
+    const downPaymentPercent = Math.round(100 * downPayment / this.state.homePrice);
+    this.setDownPayment(downPayment, downPaymentPercent);
   }
   handleDownPaymentPercent(event) {
-    let downPaymentPercent = +event.target.value.match(/[0-9]/g).join('');
-    let downPayment = Math.round(this.state.homePrice * downPaymentPercent / 100);
-    this.setState({
-      downPayment,
-      downPaymentPercent
-    });
+    const downPaymentPercent = +event.target.value.match(/[0-9]/g).join('');
+    const downPayment = Math.round(this.state.homePrice * downPaymentPercent / 100);
+    this.setDownPayment(downPayment, downPaymentPercent);
   }
   handleDownPaymentRange(event) {
-    let downPaymentPercent = +event.target.value;
-    let downPayment = Math.round(this.state.homePrice * downPaymentPercent / 100);
-    this.setState({
-      downPayment,
-      downPaymentPercent
-    });
+    const downPaymentPercent = +event.target.value;
+    const downPayment = Math.round(this.state.homePrice * downPaymentPercent / 100);
+    this.setDownPayment(downPayment, downPaymentPercent);
   }
-  handleRate(event) {
-    let interestRate = (Math.round(parseFloat(event.target.value) * 100) / 100) || 0;
+  handleInterestRate(event) {
+    const interestRate = (Math.round(parseFloat(event.target.value) * 100) / 100) || 0;
+    const principalPlusInterest = this.calculatePrincipalPlus(this.state.principal, interestRate / 1200, this.state.loanDuration * 12);
+    const monthlyPayment = principalPlusInterest + this.state.propertyTaxes + this.state.homeInsurance + this.state.hoa + this.state.mortgageInsurance;
     this.setState({
+      monthlyPayment,
+      principalPlusInterest,
       interestRate
     });
   }
+  getDuration(loanType) {
+    return +loanType.match(/([0-9]{2})-year/)[1];
+  }
   handleLoanType(event) {
-    let loanType = event.target.value;
-    let loanDuration = +loanType.match(/([0-9]{2})-year/)[1];
-    let interestRate = Math.round(this.rates.find(rate=>rate.rateType === loanType).rate * 100) / 100;
+    const loanType = event.target.value;
+    const loanDuration = this.getDuration(loanType);
+    const interestRate = Math.round(this.state.rates.find(rate=>rate.rateType === loanType).rate * 100) / 100;
+    const principalPlusInterest = this.calculatePrincipalPlus(this.state.principal, interestRate / 1200, loanDuration * 12);
+    const monthlyPayment = principalPlusInterest + this.state.propertyTaxes + this.state.homeInsurance + this.state.hoa + this.state.mortgageInsurance;
     this.setState({
+      monthlyPayment,
+      principalPlusInterest,
       loanType,
       loanDuration,
       interestRate
     });
   }
   render() {
-    return (
+    return this.state.init ? (
       <section id="mortgage-calculator" role="application">
-        <header>
-          <h3>Affordability</h3>
-          <h4>Calculate your monthly mortgage payments</h4>
-          <h5>Your est. payment:
-            <output name="monthlyPayment">
-              {this.formatCurrency(this.state.monthlyPayment)}
-            </output>
-            /month
-          </h5>
-        </header>
+        <Header monthlyPayment={this.formatCurrency(this.state.monthlyPayment)} />
 
-        <form id="AffordabilityInputControls">
-          <fieldset id="HomePrice">
-            <legend>Home Price</legend>
-            <label htmlFor="HomePriceInput">Home Price</label>
-            <input className="textInput" id="HomePriceInput" type="text"
-              value={this.formatCurrency(this.state.homePrice)}
-              onChange={this.handlePriceText}
-            />
-            <input className="range" type="range" min="0" step="10" aria-label="Home Price"
-              max={Math.max(1500000, this.state.homePrice*1.25)}
-              value={this.state.homePrice}
-              onChange={this.handlePriceRange}
-            />
-          </fieldset>
+        <Form
+          handlers={{
+            priceText: this.handlePriceText,
+            priceRange: this.handlePriceRange,
+            downPaymentText: this.handleDownPaymentText,
+            downPaymentPercent: this.handleDownPaymentPercent,
+            downPaymentRange: this.handleDownPaymentRange,
+            interestRate: this.handleInterestRate,
+            loanType: this.handleLoanType
+          }}
+          values={{
+            homePrice: this.state.homePrice,
+            downPayment: this.state.downPayment,
+            downPaymentPercent: this.state.downPaymentPercent,
+            interestRate: this.state.interestRate
+          }}
+          format={this.formatCurrency}
+        />
 
-          <fieldset id="DownPayment">
-            <legend>Down Payment</legend>
-            <label htmlFor="DownPaymentInput">Down Payment</label>
-            <input className="textInput rightSplit" id="DownPaymentInput" type="text"
-              value={this.formatCurrency(this.state.downPayment)}
-              onChange={this.handleDownPaymentText}
-            />
-            <input className="textInput leftSplit" id="DownPaymentPercentage" aria-label="Down Payment Percentage" type="text"
-              value={'' + this.state.downPaymentPercent + '%'}
-              onChange={this.handleDownPaymentPercent}
-            />
-            <input className="range" type="range" min="0" max="30" step="1" aria-label="Down Payment"
-              value={this.state.downPaymentPercent}
-              onChange={this.handleDownPaymentRange}
-            />
-          </fieldset>
+        <Table elements={this.makeTableElements()} />
 
-          <fieldset id="InterestRate">
-            <legend>Interest Rate</legend>
-            <label htmlFor="InterestRateInput">Interest Rate</label>
-            <input className="textInput" id="InterestRateInput" type="text"
-              value={'' + this.state.interestRate + '%'}
-              onChange={this.handleRate}
-            />
-            <input className="range" type="range" min="0" max="6.5" step="0.1" aria-label="Interest Rate"
-              value={this.state.interestRate}
-              onChange={this.handleRate}
-            />
-          </fieldset>
+        <Figure elements={this.makeFigureElements()} monthlyPayment={this.formatCurrency(this.state.monthlyPayment)} />
 
-          <fieldset id="LoanType">
-            <legend>Loan Type</legend>
-            <label htmlFor="LoanTypeInput">Loan Type</label>
-            <select id="LoanTypeInput"
-              onChange={this.handleLoanType}
-            >
-              <optgroup label="Standard">
-                <option value="30-year fixed">30-year fixed</option>
-                <option value="20-year fixed">20-year fixed</option>
-                <option value="15-year fixed">15-year fixed</option>
-                <option value="10-year fixed">10-year fixed</option>
-              </optgroup>
-              <optgroup label="FHA">
-                <option value="FHA 30-year fixed">FHA 30-year fixed</option>
-                <option value="FHA 15-year fixed">FHA 15-year fixed</option>
-              </optgroup>
-              <optgroup label="VA">
-                <option value="VA 30-year fixed">VA 30-year fixed</option>
-                <option value="VA 15-year fixed">VA 15-year fixed</option>
-              </optgroup>
-            </select>
-          </fieldset>
-        </form>
-
-        <table className="AffordabilityTable">
-          <thead>
-            <tr>
-              <th>Legend</th>
-              <th>Expense</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td> <div className="AffordabilityTableTitleDot color1"></div> </td>
-              <td> Principal &amp; Interest </td>
-              <td> {this.formatCurrency(this.state.principalPlusInterest)} </td>
-            </tr>
-
-            <tr>
-              <td> <div className="color2 AffordabilityTableTitleDot"></div> </td>
-              <td> Property Taxes </td>
-              <td> {this.formatCurrency(this.state.propertyTaxes)} </td>
-            </tr>
-
-            <tr>
-              <td> <div className="color3 AffordabilityTableTitleDot"></div> </td>
-              <td> Home Insurance </td>
-              <td> {this.formatCurrency(this.state.homeInsurance)} </td>
-            </tr>
-
-            <tr>
-              <td> <div className="color4 AffordabilityTableTitleDot"></div> </td>
-              <td> HOA </td>
-              <td> {this.formatCurrency(this.state.hoa)} </td>
-            </tr>
-
-            <tr>
-              <td> <div className="color5 AffordabilityTableTitleDot"></div> </td>
-              <td> Mortgage ins. &amp; other </td>
-              <td> {this.formatCurrency(this.state.mortgageInsurance)} </td>
-            </tr>
-          </tbody>
-
-          <tfoot>
-            <tr>
-              <td></td>
-              <td>Total</td>
-              <td><output name="totalMonthlyAmount"></output></td>
-            </tr>
-          </tfoot>
-        </table>
-
-        <figure className="DonutChartGraphContainer">
-          <svg viewBox="0 0 36 36">
-            <circle cx="18" cy="18" r="12" fill="#fff" role="presentation">
-            </circle>
-            <circle cx="18" cy="18" r="16" fill="transparent" stroke="rgb(5, 34, 134)" strokeWidth="3.8"
-              strokeDasharray="47.673314339981005 52.326685660018995" strokeDashoffset="25">
-            </circle>
-            <circle cx="18" cy="18" r="16" fill="transparent" stroke="rgb(0, 173, 187)" strokeWidth="3.8"
-              strokeDasharray="7.027540360873694 92.9724596391263" strokeDashoffset="77.326685660019">
-            </circle>
-            <circle cx="18" cy="18" r="16" fill="transparent" stroke="rgb(194, 213, 0)" strokeWidth="3.8"
-              strokeDasharray="3.561253561253561 96.43874643874643" strokeDashoffset="70.2991452991453">
-            </circle>
-            <circle cx="18" cy="18" r="16" fill="transparent" stroke="rgb(250, 140, 104)" strokeWidth="3.8"
-              strokeDasharray="41.73789173789174 58.26210826210826" strokeDashoffset="66.73789173789174">
-            </circle>
-          </svg>
-
-          <figcaption className="DonutChartLabelContainer">
-            <h1>
-              <output name="MonthlyPayment" className="DonutChartLabelAmount">
-                {this.formatCurrency(this.state.monthlyPayment)}
-              </output>
-            </h1>
-            <p className="DonutChartLabelUnit">/month</p>
-          </figcaption>
-        </figure>
-
-        <footer className="AffordabilityTableButtonContainer">
-          <button type="button">Get Pre-Qualified</button>
-          or
-          <small><a href="/rates"> See today&#39;s mortgage rates </a></small>
-        </footer>
-
+        <Footer />
       </section>
-    );
+    ) : 'Loading';
   }
 }
