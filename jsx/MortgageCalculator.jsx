@@ -5,13 +5,6 @@ import Figure from './Figure.jsx';
 import Table from './Table.jsx';
 import Form from './Form.jsx';
 import dummyData from '../db/dummyData.js';
-const colors = [
-  "rgb(5, 34, 134)",
-  "rgb(0, 173, 187)",
-  "rgb(194, 213, 0)",
-  "rgb(250, 140, 104)",
-  "rgb(206, 182, 255)"
-];
 export default class MortgageCalculator extends React.Component {
   constructor(props) {
     super(props);
@@ -91,8 +84,7 @@ export default class MortgageCalculator extends React.Component {
     return offsets.map((e, i) => ({
       value: '' + proportions[i],
       complement: '' + complements[i],
-      offset: '' + offsets[i],
-      color: colors[i]
+      offset: '' + offsets[i]
     }));
   }
   formatCurrency(value) {
