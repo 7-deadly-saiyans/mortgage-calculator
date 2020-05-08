@@ -16,6 +16,7 @@ export default class MortgageCalculator extends React.Component {
     this.handleInterestRate = this.handleInterestRate.bind(this);
     this.handleLoanType = this.handleLoanType.bind(this);
     const setState = this.setState.bind(this);
+
     if(!props.id) {
       this.state = dummyData;
     } else {
@@ -51,9 +52,11 @@ export default class MortgageCalculator extends React.Component {
       );
     }
   }
+
   calculateMonthlyPayment() {
     return this.getElements().reduce((a, b) => a + b);
   }
+
   //https://en.wikipedia.org/wiki/Mortgage_calculator#Monthly_payment_formula
   calculatePrincipalPlus() {
     const p = this.state.homePrice - this.state.downPayment;
@@ -61,6 +64,7 @@ export default class MortgageCalculator extends React.Component {
     const n = this.state.loanDuration * 12;
     return r ? r * p * ((1 + r) ** n) / ((1 + r) ** n - 1) : (p / n);
   }
+
   getElements() {
     return [
       this.calculatePrincipalPlus(),
@@ -70,9 +74,11 @@ export default class MortgageCalculator extends React.Component {
       this.state.mortgageInsurance
     ];
   }
+
   makeTableElements() {
     return this.getElements().map(this.formatCurrency);
   }
+
   makeFigureElements() {
     const elements = this.getElements();
     const monthlyPayment = this.calculateMonthlyPayment();
@@ -85,12 +91,15 @@ export default class MortgageCalculator extends React.Component {
       offset: '' + offsets[i]
     }));
   }
+
   formatCurrency(value) {
     return '$' + Math.round(value).toLocaleString();
   }
+
   parseCurrency(string) {
     return +string.match(/[0-9]/g).join('');
   }
+
   setHomePrice(homePrice) {
     const downPayment = Math.round(homePrice * this.state.downPaymentPercent / 100);
     const propertyTaxes = this.state.propertyTaxRate * homePrice / 12;
@@ -100,44 +109,53 @@ export default class MortgageCalculator extends React.Component {
       downPayment
     });
   }
+
   handlePriceText(event) {
     const homePrice = this.parseCurrency(event.target.value);
     this.setHomePrice(homePrice);
   }
+
   handlePriceRange(event) {
     const homePrice = +event.target.value;
     this.setHomePrice(homePrice);
   }
+
   setDownPayment(downPayment, downPaymentPercent) {
     this.setState({
       downPayment,
       downPaymentPercent
     });
   }
+
   handleDownPaymentText(event) {
     const downPayment = Math.round(this.parseCurrency(event.target.value));
     const downPaymentPercent = Math.round(100 * downPayment / this.state.homePrice);
     this.setDownPayment(downPayment, downPaymentPercent);
   }
+
   handleDownPaymentPercent(event) {
     const downPaymentPercent = +event.target.value.match(/[0-9]/g).join('');
     const downPayment = Math.round(this.state.homePrice * downPaymentPercent / 100);
     this.setDownPayment(downPayment, downPaymentPercent);
   }
+
   handleDownPaymentRange(event) {
     const downPaymentPercent = +event.target.value;
     const downPayment = Math.round(this.state.homePrice * downPaymentPercent / 100);
     this.setDownPayment(downPayment, downPaymentPercent);
   }
+
   handleInterestRate(event) {
     const interestRate = (Math.round(parseFloat(event.target.value) * 100) / 100) || 0;
     this.setState({
       interestRate
     });
   }
+
   getDuration(loanType) {
     return +loanType.match(/([0-9]{2})-year/)[1];
   }
+
   handleLoanType(event) {
     const loanType = event.target.value;
     const loanDuration = this.getDuration(loanType);
@@ -148,6 +166,7 @@ export default class MortgageCalculator extends React.Component {
       interestRate
     });
   }
+
   render() {
     const monthlyPayment = this.calculateMonthlyPayment()
     return !this.state ? 'Loading...' : (
