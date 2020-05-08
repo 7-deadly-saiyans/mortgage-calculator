@@ -22,9 +22,8 @@ export default class MortgageCalculator extends React.Component {
       fetch('/home/' + props.id)
       .then(response => response.json())
       .then(data => data[0])
-      .then(({id, price, hoaFees, zipCode}) => {
+      .then(({price, hoaFees, zipCode}) => {
         const home = {
-          id,
           zipCode,
           homePrice: price,
           hoa: hoaFees,
@@ -34,7 +33,6 @@ export default class MortgageCalculator extends React.Component {
           mortgageInsurance: 0
         }
         home.downPayment = price * home.downPaymentPercent / 100;
-        home.principal = price - home.downPayment;
         home.propertyTaxes = price * home.propertyTaxRate / 12;
         return home;
       })
@@ -46,8 +44,6 @@ export default class MortgageCalculator extends React.Component {
           home.loanType = rates[0].rateType;
           home.loanDuration = this.getDuration(home.loanType);
           home.interestRate = Math.round(rates[0].rate * 100) / 100;
-          home.principalPlusInterest = this.calculatePrincipalPlus(home.principal, home.interestRate / 1200, home.loanDuration * 12);
-          home.monthlyPayment = this.calculateMonthlyPayment(home);
           home.init = true;
           return home;
         })
@@ -55,18 +51,19 @@ export default class MortgageCalculator extends React.Component {
       );
     }
   }
-  calculateMonthlyPayment({principalPlusInterest, propertyTaxes, homeInsurance, hoa, mortgageInsurance}) {
-    return principalPlusInterest + propertyTaxes + homeInsurance + hoa + mortgageInsurance;
+  calculateMonthlyPayment() {
+    return this.getElements().reduce((a, b) => a + b);
   }
   //https://en.wikipedia.org/wiki/Mortgage_calculator#Monthly_payment_formula
-  calculatePrincipalPlus(principal, monthlyRate, nPayments) {
-    return monthlyRate
-      ? monthlyRate * principal * ((1 + monthlyRate) ** nPayments) / ((1 + monthlyRate) ** nPayments - 1)
-      : (principal / nPayments);
+  calculatePrincipalPlus() {
+    const p = this.state.homePrice - this.state.downPayment;
+    const r = this.state.interestRate / 1200;
+    const n = this.state.loanDuration * 12;
+    return r ? r * p * ((1 + r) ** n) / ((1 + r) ** n - 1) : (p / n);
   }
   getElements() {
     return [
-      this.state.principalPlusInterest,
+      this.calculatePrincipalPlus(),
       this.state.propertyTaxes,
       this.state.homeInsurance,
       this.state.hoa,
@@ -78,7 +75,8 @@ export default class MortgageCalculator extends React.Component {
   }
   makeFigureElements() {
     const elements = this.getElements();
-    const proportions = elements.map(e => 100 * e / this.state.monthlyPayment);
+    const monthlyPayment = this.calculateMonthlyPayment();
+    const proportions = elements.map(e => 100 * e / monthlyPayment);
     const complements = proportions.map(e => 100 - e);
     const offsets = complements.map((_, i) => complements.slice(0, i).reduce((a, e) => (a + e) % 100, 25));
     return offsets.map((e, i) => ({
@@ -95,15 +93,9 @@ export default class MortgageCalculator extends React.Component {
   }
   setHomePrice(homePrice) {
     const downPayment = Math.round(homePrice * this.state.downPaymentPercent / 100);
-    const principal = homePrice - downPayment;
     const propertyTaxes = this.state.propertyTaxRate * homePrice / 12;
-    const principalPlusInterest = this.calculatePrincipalPlus(principal, this.state.interestRate / 1200, this.state.loanDuration * 12);
-    const monthlyPayment = principalPlusInterest + this.state.propertyTaxes + this.state.homeInsurance + this.state.hoa + this.state.mortgageInsurance;
     this.setState({
-      monthlyPayment,
-      principalPlusInterest,
       propertyTaxes,
-      principal,
       homePrice,
       downPayment
     });
@@ -117,13 +109,7 @@ export default class MortgageCalculator extends React.Component {
     this.setHomePrice(homePrice);
   }
   setDownPayment(downPayment, downPaymentPercent) {
-    const principal = this.state.homePrice - downPayment;
-    const principalPlusInterest = this.calculatePrincipalPlus(principal, this.state.interestRate / 1200, this.state.loanDuration * 12);
-    const monthlyPayment = principalPlusInterest + this.state.propertyTaxes + this.state.homeInsurance + this.state.hoa + this.state.mortgageInsurance;
     this.setState({
-      monthlyPayment,
-      principalPlusInterest,
-      principal,
       downPayment,
       downPaymentPercent
     });
@@ -145,11 +131,7 @@ export default class MortgageCalculator extends React.Component {
   }
   handleInterestRate(event) {
     const interestRate = (Math.round(parseFloat(event.target.value) * 100) / 100) || 0;
-    const principalPlusInterest = this.calculatePrincipalPlus(this.state.principal, interestRate / 1200, this.state.loanDuration * 12);
-    const monthlyPayment = principalPlusInterest + this.state.propertyTaxes + this.state.homeInsurance + this.state.hoa + this.state.mortgageInsurance;
     this.setState({
-      monthlyPayment,
-      principalPlusInterest,
       interestRate
     });
   }
@@ -160,22 +142,19 @@ export default class MortgageCalculator extends React.Component {
     const loanType = event.target.value;
     const loanDuration = this.getDuration(loanType);
     const interestRate = Math.round(this.state.rates.find(rate=>rate.rateType === loanType).rate * 100) / 100;
-    const principalPlusInterest = this.calculatePrincipalPlus(this.state.principal, interestRate / 1200, loanDuration * 12);
-    const monthlyPayment = principalPlusInterest + this.state.propertyTaxes + this.state.homeInsurance + this.state.hoa + this.state.mortgageInsurance;
     this.setState({
-      monthlyPayment,
-      principalPlusInterest,
       loanType,
       loanDuration,
       interestRate
     });
   }
   render() {
+    const monthlyPayment = this.calculateMonthlyPayment()
     return !this.state ? 'Loading...' : (
       <section id="mortgage-calculator" role="application">
 
         <Header
-          monthlyPayment={this.formatCurrency(this.state.monthlyPayment)}
+          monthlyPayment={this.formatCurrency(monthlyPayment)}
         />
 
         <Form
@@ -203,7 +182,7 @@ export default class MortgageCalculator extends React.Component {
 
         <Figure
           elements={this.makeFigureElements()}
-          monthlyPayment={this.formatCurrency(this.state.monthlyPayment)}
+          monthlyPayment={this.formatCurrency(monthlyPayment)}
         />
 
         <Footer />
