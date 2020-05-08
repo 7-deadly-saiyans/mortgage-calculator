@@ -44,7 +44,7 @@ export default class MortgageCalculator extends React.Component {
           home.rates = rates;
           home.loanType = rates[0].rateType;
           home.loanDuration = this.getDuration(home.loanType);
-          home.interestRate = Math.round(rates[0].rate * 100) / 100;
+          home.interestRate = this.formatPercent(rates[0].rate);
           home.init = true;
           return home;
         })
@@ -84,7 +84,7 @@ export default class MortgageCalculator extends React.Component {
     const monthlyPayment = this.calculateMonthlyPayment();
     const proportions = elements.map(e => 100 * e / monthlyPayment);
     const complements = proportions.map(e => 100 - e);
-    const offsets = complements.map((_, i) => complements.slice(0, i).reduce((a, e) => (a + e) % 100, 25));
+    const offsets = complements.map(this.makeOffsets);
     return offsets.map((e, i) => ({
       value: '' + proportions[i],
       complement: '' + complements[i],
@@ -92,8 +92,16 @@ export default class MortgageCalculator extends React.Component {
     }));
   }
 
+  makeOffsets(_, i, a) {
+    return a.slice(0, i).reduce((a, e) => (a + e) % 100, 25);
+  }
+
   formatCurrency(value) {
     return '$' + Math.round(value).toLocaleString();
+  }
+
+  formatPercent(value) {
+    return Math.round(value * 100) / 100;
   }
 
   parseCurrency(string) {
@@ -146,7 +154,7 @@ export default class MortgageCalculator extends React.Component {
   }
 
   handleInterestRate(event) {
-    const interestRate = (Math.round(parseFloat(event.target.value) * 100) / 100) || 0;
+    const interestRate = this.formatPercent(parseFloat(event.target.value)) || 0;
     this.setState({
       interestRate
     });
@@ -159,7 +167,8 @@ export default class MortgageCalculator extends React.Component {
   handleLoanType(event) {
     const loanType = event.target.value;
     const loanDuration = this.getDuration(loanType);
-    const interestRate = Math.round(this.state.rates.find(rate=>rate.rateType === loanType).rate * 100) / 100;
+    const interestRateRaw = this.state.rates.find(rate=>rate.rateType === loanType).rate;
+    const interestRate = this.formatPercent(interestRateRaw);
     this.setState({
       loanType,
       loanDuration,
