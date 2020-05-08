@@ -80,6 +80,17 @@ label {
   top: 6px;
   left: 1px;
 }
+input[type=range] {
+  -webkit-appearance: none;
+  height: 2px;
+  outline: none;
+  background: linear-gradient(
+    to right,
+    rgb(0, 120, 130) 0%,
+    rgb(205, 209, 212) 100%
+  );
+  margin-top: 10px;
+}
 .range {
   width: 100%;
 }
@@ -93,6 +104,10 @@ input.textInput {
   font-size: small;
   color: #222;
 }
+input.textInput:focus {
+  outline: none;
+  box-shadow: rgb(0, 120, 130) 0px 0px 0px 2px;
+}
 input.leftSplit {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
@@ -101,8 +116,12 @@ input.rightSplit {
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
 }
-#loanTypeInput {
+#LoanTypeInput {
   display: block;
+}
+#LoanTypeInput:focus {
+  outline: none;
+  box-shadow: rgb(0, 120, 130) 0px 0px 0px 2px;
 }
 table col #legendCol {
   width: 20px;
@@ -119,6 +138,21 @@ figcaption.DonutChartLabelContainer {
 figure figcaption p.DonutChartLabelUnit {
   position: relative;
   top: -10px;
+}
+circle.color1 {
+  stroke: rgb(5, 34, 134);
+}
+circle.color2 {
+  stroke: rgb(0, 173, 187);
+}
+circle.color3 {
+  stroke: rgb(194, 213, 0);
+}
+circle.color4 {
+  stroke: rgb(250, 140, 104);
+}
+circle.color5 {
+  stroke: rgb(206, 182, 255);
 }
 .totalAmount {
   float:right;
@@ -156,6 +190,11 @@ footer button {
   transition: top 0.1s ease 0s, box-shadow 0.1s ease 0s, border-color 0.1s ease 0s, background-color 0.1s ease 0s, color 0.1s ease 0s;
   padding: 8px 16px;
   border-color: transparent;
+}
+footer button:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 120, 130);
+  border-color: rgb(0, 120, 130);
 }
 footer small {
   width: 100%;

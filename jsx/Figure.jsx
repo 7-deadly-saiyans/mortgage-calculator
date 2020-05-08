@@ -5,7 +5,7 @@ const Figure = ({elements, monthlyPayment}) => (
       <circle cx="18" cy="18" r="12" fill="#fff" role="presentation">
       </circle>
       {elements && elements.map((e, i) => (
-        <circle key={i} cx="18" cy="18" r="16" fill="transparent" stroke={e.color} strokeWidth="3.8"
+        <circle className={"color" + (i + 1)} key={i} cx="18" cy="18" r="16" fill="transparent" strokeWidth="3.8"
           strokeDasharray={e.value + ' ' + e.complement} strokeDashoffset={e.offset}>
         </circle>
       ))}
