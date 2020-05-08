@@ -1,10 +1,12 @@
 import React from 'react';
+import styled from 'styled-components';
 import FormPrice from './FormPrice.jsx';
 import FormPayment from './FormPayment.jsx';
 import FormRate from './FormRate.jsx';
 import FormType from './FormType.jsx';
-const Form = ({handlers, values, format}) => (
-  <form id="AffordabilityInputControls">
+
+export default ({handlers, values, format}) => (
+  <Form>
 
     <FormPrice
       format={format}
@@ -31,6 +33,12 @@ const Form = ({handlers, values, format}) => (
       handler={handlers.loanType}
     />
 
-  </form>
+  </Form>
 );
-export default Form;
+
+const Form = styled.form`
+  border-radius: 6px;
+  height: 120px;
+  background-color: rgba(0,0,0,.05);
+  padding: 9px;
+`;
