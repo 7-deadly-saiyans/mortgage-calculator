@@ -1,11 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const styledFooter = ({zipCode}) => (
+export default ({zipCode}) => (
   <Footer>
-    <Button type="button">Get Pre-Qualified</Button>
+    <Button type="button">
+      Get Pre-Qualified
+    </Button>
+
     or
-    <Small><A href={"/rate/" + zipCode}> See today&#39;s mortgage rates </A></Small>
+
+    <Small>
+      <A href={"/rate/" + zipCode}>
+        See today&#39;s mortgage rates
+      </A>
+    </Small>
   </Footer>
 );
 
@@ -50,5 +58,3 @@ const A = styled.a`
   color: rgb(0, 120, 130);
   text-decoration: none;
 `;
-
-export default styledFooter;

@@ -10,9 +10,7 @@ export default ({handler}) => (
     <Label>
       Loan Type
 
-      <Select
-        onChange={handler} >
-
+      <Select onChange={handler} >
         <optgroup label="Standard">
           <option value="30-year fixed">30-year fixed</option>
           <option value="20-year fixed">20-year fixed</option>

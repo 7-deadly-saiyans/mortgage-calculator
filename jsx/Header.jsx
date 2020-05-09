@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const styledHeader = ({monthlyPayment}) => (
+export default ({monthlyPayment}) => (
   <Header>
     <H3>Affordability</H3>
     <H4>Calculate your monthly mortgage payments</H4>
@@ -9,6 +9,7 @@ const styledHeader = ({monthlyPayment}) => (
       <output name="monthlyPayment">
         {monthlyPayment}
       </output>
+
       /month
     </H5>
   </Header>
@@ -31,5 +32,3 @@ const H5 = styled.h5`
   margin-top: -12px;
   margin-bottom: -5px;
 `;
-
-export default styledHeader;

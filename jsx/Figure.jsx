@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const styledFigure = ({elements, monthlyPayment}) => (
+export default ({elements, monthlyPayment}) => (
   <Figure>
     <Svg viewBox="0 0 36 36">
       <circle cx="18" cy="18" r="12" fill="#fff" role="presentation">
       </circle>
+
       {elements && elements.map((e, i) => (
         <Circle color={i} key={i} cx="18" cy="18" r="16" fill="transparent" strokeWidth="3.8"
           strokeDasharray={e.value + ' ' + e.complement} strokeDashoffset={e.offset}>
@@ -19,7 +20,10 @@ const styledFigure = ({elements, monthlyPayment}) => (
           {monthlyPayment}
         </Output>
       </h1>
-      <P>/month</P>
+
+      <P>
+        /month
+      </P>
     </Figcaption>
   </Figure>
 );
@@ -62,5 +66,3 @@ const P = styled.p`
   position: relative;
   top: -10px;
 `;
-
-export default styledFigure;

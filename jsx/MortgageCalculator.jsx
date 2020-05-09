@@ -182,7 +182,6 @@ export default class MortgageCalculator extends React.Component {
     const monthlyPayment = this.calculateMonthlyPayment()
     return !this.state ? 'Loading...' : (
       <Section role="application">
-
         <Header
           monthlyPayment={this.formatCurrency(monthlyPayment)}
         />
@@ -216,7 +215,6 @@ export default class MortgageCalculator extends React.Component {
         />
 
         <Footer />
-
       </Section>
     );
   }

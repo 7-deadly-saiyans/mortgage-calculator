@@ -7,7 +7,6 @@ import FormType from './FormType.jsx';
 
 export default ({handlers, values, format}) => (
   <Form>
-
     <FormPrice
       format={format}
       homePrice={values.homePrice}
@@ -32,7 +31,6 @@ export default ({handlers, values, format}) => (
     <FormType
       handler={handlers.loanType}
     />
-
   </Form>
 );
 

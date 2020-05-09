@@ -9,7 +9,7 @@ const labels = [
   "Mortgage ins. & other"
 ];
 
-const styledTable = ({elements}) => (
+export default ({elements}) => (
   <Table>
     <Thead>
       <tr>
@@ -80,5 +80,3 @@ const Div = styled.div`
   height: 16px;
   background-color: ${props => colors[props.color]}; 
 `;
-
-export default styledTable;
