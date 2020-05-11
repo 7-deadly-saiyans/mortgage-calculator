@@ -1,34 +1,31 @@
 import React from 'react';
-const FormPayment = ({format, downPayment, downPaymentPercent, textHandler, textHandlerPercent, rangeHandler}) => (
-  <fieldset id="DownPayment">
-    <legend>
+import {Fieldset, Legend, Label, LeftInput, RightInput, RangeInput} from './FormStyledElements.jsx';
+
+export default ({format, downPayment, downPaymentPercent, textHandler, textHandlerPercent, rangeHandler}) => (
+  <Fieldset>
+    <Legend>
       Down Payment
-    </legend>
+    </Legend>
 
-    <label htmlFor="DownPaymentInput">
+    <Label>
       Down Payment
-    </label>
 
-    <input
-      type="text"
-      id="DownPaymentInput"
-      className="textInput rightSplit"
-      value={format(downPayment)}
-      onChange={textHandler}
-    />
+      <RightInput
+        type="text"
+        value={format(downPayment)}
+        onChange={textHandler}
+      />
+    </Label>
 
-    <input
+    <LeftInput
       type="text"
-      id="DownPaymentPercentage"
-      className="textInput leftSplit"
       aria-label="Down Payment Percentage"
       value={'' + downPaymentPercent + '%'}
       onChange={textHandlerPercent}
     />
 
-    <input
+    <RangeInput
       type="range"
-      className="range"
       aria-label="Down Payment"
       min="0"
       max="30"
@@ -36,6 +33,5 @@ const FormPayment = ({format, downPayment, downPaymentPercent, textHandler, text
       value={downPaymentPercent}
       onChange={rangeHandler}
     />
-  </fieldset>
+  </Fieldset>
 );
-export default FormPayment;

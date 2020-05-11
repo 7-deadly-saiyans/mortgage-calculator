@@ -1,14 +1,34 @@
 import React from 'react';
-const Header = ({monthlyPayment}) => (
-  <header>
-    <h3>Affordability</h3>
-    <h4>Calculate your monthly mortgage payments</h4>
-    <h5>Your est. payment:
+import styled from 'styled-components';
+
+export default ({monthlyPayment}) => (
+  <Header>
+    <H3>Affordability</H3>
+    <H4>Calculate your monthly mortgage payments</H4>
+    <H5>Your est. payment:
       <output name="monthlyPayment">
         {monthlyPayment}
       </output>
+
       /month
-    </h5>
-  </header>
+    </H5>
+  </Header>
 );
-export default Header;
+
+const Header = styled.header`
+  padding: 13px;
+`;
+
+const H3 = styled.h3`
+  font-weight: 500;
+`;
+
+const H4 = styled.h4`
+  font-weight: 300;
+`;
+
+const H5 = styled.h5`
+  font-weight: 100;
+  margin-top: -12px;
+  margin-bottom: -5px;
+`;

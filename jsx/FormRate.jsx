@@ -1,25 +1,24 @@
 import React from 'react';
-const FormRate = ({interestRate, handleRate}) => (
-  <fieldset id="InterestRate">
-    <legend>
+import {Fieldset, Legend, Label, TextInput, RangeInput} from './FormStyledElements.jsx';
+
+export default ({interestRate, handleRate}) => (
+  <Fieldset>
+    <Legend>
       Interest Rate
-    </legend>
+    </Legend>
 
-    <label htmlFor="InterestRateInput">
+    <Label>
       Interest Rate
-    </label>
 
-    <input
-      type="text"
-      id="InterestRateInput"
-      className="textInput"
-      value={'' + interestRate + '%'}
-      onChange={handleRate}
-    />
+      <TextInput
+        type="text"
+        value={'' + interestRate + '%'}
+        onChange={handleRate}
+      />
+    </Label>
 
-    <input
+    <RangeInput
       type="range"
-      className="range"
       aria-label="Interest Rate"
       min="0"
       max="6.5"
@@ -27,6 +26,5 @@ const FormRate = ({interestRate, handleRate}) => (
       value={interestRate}
       onChange={handleRate}
     />
-  </fieldset>
+  </Fieldset>
 );
-export default FormRate;

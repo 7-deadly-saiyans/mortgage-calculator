@@ -1,24 +1,68 @@
 import React from 'react';
-const Figure = ({elements, monthlyPayment}) => (
-  <figure className="DonutChartGraphContainer">
-    <svg viewBox="0 0 36 36">
+import styled from 'styled-components';
+
+export default ({elements, monthlyPayment}) => (
+  <Figure>
+    <Svg viewBox="0 0 36 36">
       <circle cx="18" cy="18" r="12" fill="#fff" role="presentation">
       </circle>
-      {elements && elements.map((e, i) => (
-        <circle className={"color" + (i + 1)} key={i} cx="18" cy="18" r="16" fill="transparent" strokeWidth="3.8"
-          strokeDasharray={e.value + ' ' + e.complement} strokeDashoffset={e.offset}>
-        </circle>
-      ))}
-    </svg>
 
-    <figcaption className="DonutChartLabelContainer">
+      {elements && elements.map((e, i) => (
+        <Circle color={i} key={i} cx="18" cy="18" r="16" fill="transparent" strokeWidth="3.8"
+          strokeDasharray={e.value + ' ' + e.complement} strokeDashoffset={e.offset}>
+        </Circle>
+      ))}
+    </Svg>
+
+    <Figcaption>
       <h1>
-        <output name="MonthlyPayment" className="DonutChartLabelAmount">
+        <Output name="MonthlyPayment">
           {monthlyPayment}
-        </output>
+        </Output>
       </h1>
-      <p className="DonutChartLabelUnit">/month</p>
-    </figcaption>
-  </figure>
+
+      <P>
+        /month
+      </P>
+    </Figcaption>
+  </Figure>
 );
-export default Figure;
+
+const Figure = styled.figure`
+  width: 200px;
+`;
+
+const Svg = styled.svg`
+  position: relative;
+  top: 8px;
+`;
+
+const colors = [
+  "rgb(5, 34, 134)",
+  "rgb(0, 173, 187)",
+  "rgb(194, 213, 0)",
+  "rgb(250, 140, 104)",
+  "rgb(206, 182, 255)"
+];
+
+const Circle = styled.circle`
+  stroke: ${props => colors[props.color]}
+`;
+
+const Figcaption = styled.figcaption`
+  position:relative;
+  top: -140;
+  left: 83;
+`;
+
+const Output = styled.output`
+  font-family: monospace;
+  font-size: xxx-large;
+  position: relative;
+  right: 53px;
+`;
+
+const P = styled.p`
+  position: relative;
+  top: -10px;
+`;

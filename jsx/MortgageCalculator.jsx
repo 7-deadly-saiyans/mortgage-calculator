@@ -1,10 +1,12 @@
 import React from 'react';
+import styled from 'styled-components';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import Figure from './Figure.jsx';
 import Table from './Table.jsx';
 import Form from './Form.jsx';
 import dummyData from '../db/dummyData.js';
+
 export default class MortgageCalculator extends React.Component {
   constructor(props) {
     super(props);
@@ -179,8 +181,7 @@ export default class MortgageCalculator extends React.Component {
   render() {
     const monthlyPayment = this.calculateMonthlyPayment()
     return !this.state ? 'Loading...' : (
-      <section id="mortgage-calculator" role="application">
-
+      <Section role="application">
         <Header
           monthlyPayment={this.formatCurrency(monthlyPayment)}
         />
@@ -214,8 +215,15 @@ export default class MortgageCalculator extends React.Component {
         />
 
         <Footer />
-
-      </section>
+      </Section>
     );
   }
 }
+
+const Section = styled.section`
+  width: 880px;
+  color: #222;
+  font-family: sans-serif;
+  font-size: small;
+  margin: auto;
+`;

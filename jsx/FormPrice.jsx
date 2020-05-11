@@ -1,25 +1,24 @@
 import React from 'react';
-const FormPrice = ({format, homePrice, textHandler, rangeHandler}) => (
-  <fieldset id="HomePrice">
-    <legend>
-      Home Price
-    </legend>
+import {Fieldset, Legend, Label, TextInput, RangeInput} from './FormStyledElements.jsx';
 
-    <label htmlFor="HomePriceInput">
+export default ({format, homePrice, textHandler, rangeHandler}) => (
+  <Fieldset>
+    <Legend>
       Home Price
-    </label>
+    </Legend>
+
+    <Label>
+      Home Price
     
-    <input
-      type="text"
-      id="HomePriceInput"
-      className="textInput"
-      value={format(homePrice)}
-      onChange={textHandler}
-    />
+      <TextInput
+        type="text"
+        value={format(homePrice)}
+        onChange={textHandler}
+      />
+    </Label>
     
-    <input
+    <RangeInput
       type="range"
-      className="range"
       aria-label="Home Price"
       step="10"
       min="0"
@@ -27,6 +26,5 @@ const FormPrice = ({format, homePrice, textHandler, rangeHandler}) => (
       value={homePrice}
       onChange={rangeHandler}
     />
-  </fieldset>
+  </Fieldset>
 );
-export default FormPrice;
