@@ -28,5 +28,5 @@ api.get('/rate/:zipCode', (request, response) => {
 
 api.use(express.static('public'));
 
-api.listen(3000, ()=>console.log('listening on localhost:3000'));
+api.listen(3004, ()=>console.log('listening on localhost:3004'));
 
