@@ -22,11 +22,12 @@ export default class MortgageCalculator extends React.Component {
     if(!props.id) {
       this.state = dummyData;
     } else {
-      fetch('/home/' + props.id)
+      fetch('http://localhost:3004/home/' + props.id)
       .then(response => response.json())
       .then(data => data[0])
       .then(({price, hoaFees, zipCode}) => {
         const home = {
+          id: props.id,
           zipCode,
           homePrice: price,
           hoa: hoaFees,
@@ -39,7 +40,7 @@ export default class MortgageCalculator extends React.Component {
         home.propertyTaxes = price * home.propertyTaxRate / 12;
         return home;
       })
-      .then(home => fetch('/rate/' + home.zipCode)
+      .then(home => fetch('http://localhost:3004/rate/' + home.zipCode)
         .then(response => response.json())
         .then(data => data[0].rates)
         .then(rates => {
@@ -179,8 +180,9 @@ export default class MortgageCalculator extends React.Component {
   }
 
   render() {
-    const monthlyPayment = this.calculateMonthlyPayment()
-    return !this.state ? 'Loading...' : (
+    if !(this.state) { return 'Loading...' } //following line errors while awaiting fetch results
+    const monthlyPayment = this.calculateMonthlyPayment();
+    return (
       <Section role="application">
         <Header
           monthlyPayment={this.formatCurrency(monthlyPayment)}
