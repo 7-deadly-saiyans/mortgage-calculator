@@ -4,7 +4,7 @@ module.exports = {
   mode: 'development',
   entry: path.join(__dirname, '/jsx/index.jsx'),
   output: {
-    filename: 'index.js',
+    filename: 'bundle.js',
     path: path.join(__dirname, '/public')
   },
   module: {
