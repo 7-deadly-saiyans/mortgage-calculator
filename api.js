@@ -6,6 +6,10 @@ const path = require('path');
 
 api.use(cors());
 
+api.get('/', (request, response) => {
+  response.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 api.get('/:id', (request, response) => {
   const id = +request.params.id;
   if (id) {
