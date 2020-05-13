@@ -19,7 +19,7 @@ module.exports = {
     "plugins": [
         "react"
     ],
-    "ignorePatterns": ["node_modules/", "public/index.js"],
+    "ignorePatterns": ["node_modules/", "public/bundle.js"],
     "rules": {
     }
 };
