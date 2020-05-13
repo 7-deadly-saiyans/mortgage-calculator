@@ -180,7 +180,7 @@ export default class MortgageCalculator extends React.Component {
   }
 
   render() {
-    if !(this.state) { return 'Loading...' } //following line errors while awaiting fetch results
+    if (!this.state) { return 'Loading...' } //following line errors while awaiting fetch results
     const monthlyPayment = this.calculateMonthlyPayment();
     return (
       <Section role="application">
