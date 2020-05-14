@@ -1,10 +1,7 @@
 const express = require('express');
 const api = express();
 const db = require('./db/');
-const cors = require('cors');
 const path = require('path');
-
-api.use(cors());
 
 api.get('/', (request, response) => {
   response.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -19,7 +16,7 @@ api.get('/:id', (request, response) => {
   }
 });
 
-api.get('/home/:id', (request, response) => {
+api.get('/mortgageId/:id', (request, response) => {
   db.homes.get(request.params.id, (error, results, fields) => {
     if (error) {
       console.error(error);
@@ -31,7 +28,7 @@ api.get('/home/:id', (request, response) => {
   });
 });
 
-api.get('/rate/:zipCode', (request, response) => {
+api.get('/mortgageRate/:zipCode', (request, response) => {
   db.rates.get(request.params.zipCode, (error, results, fields) => {
     if (error) {
       console.error(error);

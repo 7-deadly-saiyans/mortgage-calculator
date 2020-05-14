@@ -22,7 +22,7 @@ export default class MortgageCalculator extends React.Component {
     if(!props.id) {
       this.state = dummyData;
     } else {
-      fetch('http://localhost:3004/home/' + props.id)
+      fetch('/mortgageId/' + props.id)
       .then(response => response.json())
       .then(data => data[0])
       .then(({price, hoaFees, zipCode}) => {
@@ -40,7 +40,7 @@ export default class MortgageCalculator extends React.Component {
         home.propertyTaxes = price * home.propertyTaxRate / 12;
         return home;
       })
-      .then(home => fetch('http://localhost:3004/rate/' + home.zipCode)
+      .then(home => fetch('/mortgageRate/' + home.zipCode)
         .then(response => response.json())
         .then(data => data[0].rates)
         .then(rates => {
