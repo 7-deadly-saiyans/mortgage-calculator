@@ -32,6 +32,7 @@ export const TextInput = styled.input`
 `;
 
 export const LeftInput = styled(TextInput)`
+  width: 15%;
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
 `;

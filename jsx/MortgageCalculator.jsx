@@ -223,6 +223,7 @@ export default class MortgageCalculator extends React.Component {
 }
 
 const Section = styled.section`
+  padding-top: 30px;
   width: 880px;
   color: #222;
   font-family: sans-serif;

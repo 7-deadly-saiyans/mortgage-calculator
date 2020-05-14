@@ -51,8 +51,8 @@ const Circle = styled.circle`
 
 const Figcaption = styled.figcaption`
   position:relative;
-  top: -140;
-  left: 83;
+  top: -140px;
+  left: 83px;
 `;
 
 const Output = styled.output`
