@@ -1,20 +1,8 @@
 const express = require('express');
 const api = express();
 const db = require('./db/');
-const path = require('path');
 
-api.get('/', (request, response) => {
-  response.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-api.get('/:id', (request, response) => {
-  const id = +request.params.id;
-  if (id) {
-    response.sendFile(path.join(__dirname, 'public', 'index.html'));
-  } else {
-    response.sendFile(path.join(__dirname, 'public', request.params.id));
-  }
-});
+api.use(express.static('public'));
 
 api.get('/mortgageId/:id', (request, response) => {
   db.homes.get(request.params.id, (error, results, fields) => {
@@ -23,7 +11,7 @@ api.get('/mortgageId/:id', (request, response) => {
       response.sendStatus(404);
     } else {
       console.log(results);
-      response.end(JSON.stringify(results));
+      response.json(results);
     }
   });
 });
@@ -35,7 +23,7 @@ api.get('/mortgageRate/:zipCode', (request, response) => {
       response.sendStatus(404);
     } else {
       console.log(results);
-      response.end(JSON.stringify(results));
+      response.json(results);
     }
   });
 });
