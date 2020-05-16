@@ -5,8 +5,8 @@
   "main": "api.js",
   "scripts": {
     "test": "jest --coverage",
-    "start": "nodemon api.js",
-    "build": "npx webpack --config webpack.config.js -w",
+    "start": "node api.js",
+    "build": "npx webpack --config webpack.config.js",
     "lint": "eslint .",
     "seed": "node db/seed.js"
   },
@@ -43,6 +43,7 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "compression": "^1.7.4",
     "express": "^4.17.1",
     "mongoose": "^5.9.11",
     "react": "^16.13.1",

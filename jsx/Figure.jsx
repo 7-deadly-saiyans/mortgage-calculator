@@ -57,7 +57,7 @@ const Figcaption = styled.figcaption`
 
 const Output = styled.output`
   font-family: monospace;
-  font-size: xxx-large;
+  font-size: -webkit-xxx-large;
   position: relative;
   right: 53px;
 `;
